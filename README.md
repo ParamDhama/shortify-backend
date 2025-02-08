@@ -1,20 +1,24 @@
-# 🚀 URL Shortener & Click Tracking API  
+# 🚀 URL Shortener Backend  
 
-A powerful **URL shortening and analytics** system that allows users to shorten URLs, track clicks, and manage links securely. This project includes **user authentication, click analytics, and admin controls** for managing users and links.  
+This is the **backend** for a **URL shortening and analytics system**. It allows users to shorten URLs, track clicks, and manage links securely.  
+
+🔗 **Frontend Repository:** _Coming Soon_  
+🖥️ **Backend Repository:** [GitHub](https://github.com/ParamDhama/url-shortener-backend.git)  
+
+---
 
 ## 📌 Features  
 ✔️ **User Authentication** (Signup, Login, Password Reset, Email Verification)  
-✔️ **Shorten URLs** and generate **QR codes**  
-✔️ **Track Clicks** (Location, Device, Browser)  
+✔️ **Shorten URLs** & **Track Clicks** (Location, Device, Browser)  
 ✔️ **Manage Short URLs** (Edit, Delete)  
-✔️ **Admin Dashboard** (Manage Users, URLs, Clicks)  
+✔️ **Admin Controls** (Manage Users, URLs, Clicks)  
 ✔️ **Security** (JWT Authentication, Role-Based Access)  
 
 ---
 
 ## 📂 Project Structure  
 ```
-📦 URL-Shortener
+📦 url-shortener-backend
 │-- 📂 controllers      # Business logic for authentication, URLs, clicks, admin
 │-- 📂 models           # Mongoose models (User, URL, Click)
 │-- 📂 routes           # API route definitions
@@ -31,7 +35,7 @@ A powerful **URL shortening and analytics** system that allows users to shorten 
 ✅ **Backend:** Node.js, Express.js  
 ✅ **Database:** MongoDB (Mongoose ORM)  
 ✅ **Authentication:** JWT (JSON Web Token), Bcrypt.js  
-✅ **Security:** CORS, Helmet, Rate Limiting  
+✅ **Security:** CORS,  Rate Limiting  
 ✅ **Other:** Nodemailer (Email), QR Code Generator  
 
 ---
@@ -40,8 +44,8 @@ A powerful **URL shortening and analytics** system that allows users to shorten 
 
 ### 1️⃣ Clone the Repository  
 ```bash
-git clone https://github.com/your-username/url-shortener-backend.git
-cd url-shortener
+git clone https://github.com/ParamDhama/url-shortener-backend.git
+cd url-shortener-backend
 ```
 
 ### 2️⃣ Install Dependencies  
@@ -162,9 +166,10 @@ Want to improve this project? Follow these steps:
 ---
 
 ## 📞 Contact  
-👤 **Your Name**  
-📧 **your.email@example.com**  
-🔗 **[GitHub](https://github.com/your-username)**  
+👤 **Param Dhama**  
+📧 **dhamaparam@gmail.com**  
+🌐 **[LinkedIn](https://www.linkedin.com/in/paramdhama/)**  
+🔗 **[GitHub](https://github.com/ParamDhama)**  
 
 ---
 
