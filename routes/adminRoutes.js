@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const adminController = require("../controllers/adminController");
-const authMiddleware = require("../middleware/authMiddleware");
+const authMiddleware = require("../middlewares/authMiddlewares");
 
 // Middleware to restrict access to admins only
 const adminOnly = authMiddleware(["admin"]);

@@ -1,20 +1,22 @@
 const Url = require('../models/Url');
-const Click = require('../models/Click');
+const Click = require('../models/Clicks');
 const qrcode = require('qrcode');
-const { nanoid } = require('nanoid');
+// const { nanoid } = require('nanoid');
 
 // Function to generate a unique short URL
 const generateUniqueSlug = async () => {
+  const { nanoid } = await import('nanoid'); // Dynamically import nanoid
   let slug;
   let existingUrl;
-  
+
   do {
-    slug = nanoid(6); // Generate a 6-character ID
+    slug = nanoid(6);
     existingUrl = await Url.findOne({ slug });
-  } while (existingUrl); // Keep generating until it's unique
+  } while (existingUrl);
 
   return slug;
 };
+
 
 // Function to get location data from IP
 const getLocationFromIP = async (ip) => {

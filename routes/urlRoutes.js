@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const urlController = require("../controllers/urlController");
-const authMiddleware = require("../middlewares/authMiddleware");
+const authMiddleware = require("../middlewares/authMiddlewares");
 
 // ✅ Create a Short URL (Requires Authentication)
 router.post("/shorten", authMiddleware(), urlController.createShortUrl);

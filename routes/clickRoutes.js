@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const clickController = require("../controllers/clickController");
-const authMiddleware = require("../middlewares/authMiddleware");
+const authMiddleware = require("../middlewares/authMiddlewares");
 
 // ✅ Get Click Data for a Specific URL (Requires Authentication)
 router.get("/clicks/:urlId", authMiddleware(), clickController.getUrlClicks);

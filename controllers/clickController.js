@@ -1,4 +1,4 @@
-const Click = require("../models/Click");
+const Click = require("../models/Clicks");
 const Url = require("../models/Url");
 
 // ✅ Get Click Data for a Specific URL (User Access)
