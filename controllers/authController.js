@@ -215,7 +215,7 @@ const handleResetPassword = async (req, res) => {
 
 const handleChangePassword = async (req, res) => {
     try {
-        const userId = req.user.id; // Extract user ID from token
+        const {userId} = req.user; // Extract user ID from token
         const { oldPassword, newPassword } = req.body;
 
         // Check if new password meets security requirements
@@ -228,8 +228,8 @@ const handleChangePassword = async (req, res) => {
         // Find user in the database
         const user = await User.findById(userId);
         if (!user) return res.status(404).json({ message: "User not found" });
-
         // Compare old password
+        console.log(oldPassword);
         const isMatch = await bcrypt.compare(oldPassword, user.password);
         if (!isMatch) return res.status(400).json({ message: "Old password is incorrect" });
 
