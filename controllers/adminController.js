@@ -2,23 +2,31 @@ const User = require("../models/User");
 const Url = require("../models/Url");
 const Clicks = require("../models/Clicks");
 
-
 const handleGetUsers = async (req, res) => {
-    const users = await User.find().select("-password");
-
-    if (!users) {
-        return res.status(404).json({ error: "User not found" });
+    try {
+      // Fetch only required fields & exclude password
+      const users = await User.find().select("_id name email role status isVerified createdAt");
+  
+      if (users.length === 0) {
+        return res.status(404).json({ error: "No users found" });
+      }
+  
+      return res.status(200).json({
+        message: "Users retrieved successfully",
+        users, // Sends the filtered user data
+      });
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      return res.status(500).json({ error: "Internal Server Error" });
     }
-    return res.status(200).json(users);
-};
-
+  };
 const handleUserRole = async (req, res) => {
     try {
-        const { email, role } = req.body;
+        const { userId, role } = req.body;
 
-        if (!email || !role) return res.status(400).json({ message: "Invalid credintial" });
+        if (!userId || !role) return res.status(400).json({ message: "Invalid credintial" });
 
-        const user = await User.findOne({ email: email });
+        const user = await User.findOne({ _id: userId });
 
         if (!user) return res.status(404).json({ messsage: "User not found" });
 
@@ -28,6 +36,7 @@ const handleUserRole = async (req, res) => {
         return res.status(201).json({ message: "Role change successfully" });
     }
     catch (err) {
+        console.log("Error : "+err);
         return res.status(500).json({ message: "Internal Server Error" });
     }
 }
@@ -50,6 +59,11 @@ const handleUserDelete = async(req,res) => {
     try {
         const user = await User.findByIdAndDelete(req.params.id);
         if (!user) return res.status(404).json({ message: "User not found" });
+        const urls = await Url.find({ userID: user._id });
+        if (urls.length) { 
+            await Url.deleteMany({ userID: user._id });
+            await Clicks.deleteMany({ urlId: { $in: urls.map((url) => url._id) } });
+        }
     
         res.json({ message: `User ${user.name} has been deleted.` });
       } catch (error) {
@@ -97,7 +111,7 @@ const handleUrlDelete = async(req,res) => {
 const handleGetAllClicks = async (req, res) => {
     try {
       // Fetch all click events & populate URL info
-      const clicks = await Click.find().populate("urlId", "originalUrl slug");
+      const clicks = await Clicks.find().populate("urlId", "originalUrl slug");
   
       if (!clicks.length) {
         return res.status(404).json({ message: "No click data available." });
