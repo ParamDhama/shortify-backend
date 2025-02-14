@@ -8,7 +8,7 @@ const {
     handleVerification,
     handleChangePassword
 } = require("../controllers/authController");
-const authMiddleware = require("../middlewares/authMiddleware");
+const authMiddleware = require("../middlewares/authMiddlewares");
 
 const router = express.Router();
 
