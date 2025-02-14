@@ -19,6 +19,6 @@ router.post("/forgot-password", handleForgetPassword);
 router.post("/reset-password/:token", handleResetPassword);
 router.post("/resend-verification", handleResendVerification);
 router.get("/verify/:token", handleVerification);
-router.post("/change-password", authMiddleware, handleChangePassword);
+router.post("/change-password", authMiddleware(), handleChangePassword);
 
 module.exports = router;
