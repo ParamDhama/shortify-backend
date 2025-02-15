@@ -73,7 +73,7 @@ const handleGetDeletedUrl = async(req,res) => {
         urls: urls.filter(url => url.userID == userID) // Match userID correctly
       });
     }
-    return res.status(200).json({message: 'Urls retrieved successfully',data : data});
+    return res.status(204).json({message: 'Urls retrieved successfully',data : data});
   }
   catch(err){
     console.log("Error :"+err);
@@ -89,7 +89,7 @@ const handleUserBan = async (req, res) => {
         user.status = user.status === "banned" ? "active" : "banned";
         await user.save();
 
-        res.json({ message: `User ${user.name} is now ${user.status}.` });
+        res.status(202).json({ message: `User ${user.name} is now ${user.status}.` });
     } catch (err) {
         return res.status(500).json({ message: "Internal Server Error" });
     }
@@ -105,7 +105,7 @@ const handleUserDelete = async(req,res) => {
             await Clicks.deleteMany({ urlId: { $in: urls.map((url) => url._id) } });
         }
     
-        res.json({ message: `User ${user.name} has been deleted.` });
+        res.status(204).json({ message: `User ${user.name} has been deleted.` });
       } catch (error) {
         res.status(500).json({ message: "Internal Server Error"});
       }
@@ -118,11 +118,11 @@ const handleRestoreUrl = async(req,res) => {
     
     if(!url) return res.status(404).json({message : "url not found"});
 
-    url.isDelete = false;
+    url.isDeleted = false;
 
     await url.save();
-
-    res.status(201).json({message : "Restore successfully"});
+    console.log(url)
+    res.status(202).json({message : "Restore successfully"});
     }
     catch(err){
         console.log("Error : "+err);
@@ -144,7 +144,7 @@ const handleUrlDelete = async(req,res) => {
         await Clicks.deleteMany({urlId : url._id});
         await Url.deleteMany({slug : slug});
 
-        return res.status(201).json({message: "Url delete successfully"});
+        return res.status(204).json({message: "Url delete successfully"});
     } catch (error) {
         console.log("Error : " +error);
         return res.status(500).json({message: "Internal Server Error"});

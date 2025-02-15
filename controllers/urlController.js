@@ -104,7 +104,7 @@ exports.redirectToOriginalUrl = async (req, res) => {
     url.clicks += 1;
     await url.save();
 
-    res.redirect(url.originalUrl);
+    res.status(200).json({message : "Redirecting to original URL", originalUrl: url.originalUrl});
   } catch (error) {
     console.error("Error redirecting:", error);
     res.status(500).json({ message: "Internal Server Error" });

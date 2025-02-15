@@ -51,7 +51,7 @@ const handleCreateUser = async (req, res) => {
 
         await newUser.save();
 
-        const verificationLink = `${process.env.BASE_URL}/api/users/verify/${verificationToken}`;
+        const verificationLink = `${process.env.CLIENT_URI}/api/users/verify/${verificationToken}`;
         await sendEmail(email, "Verify Your Email",
             `<h3>Click the link below to verify your email:</h3>
          <a href="${verificationLink}">${verificationLink}</a>`
@@ -106,7 +106,7 @@ const handleResendVerification = async (req, res) => {
 
         await user.save();
 
-        const verificationLink = `${process.env.BASE_URL}/api/users/verify/${newVerificationToken}`;
+        const verificationLink = `${process.env.CLIENT_URI}/api/users/verify/${newVerificationToken}`;
         await sendEmail(email, "Verify Your Email",
             `<h3>Click the link below to verify your email:</h3>
          <a href="${verificationLink}">${verificationLink}</a>`
@@ -165,7 +165,7 @@ const handleForgetPassword = async (req, res) => {
 
         await user.save();
 
-        const resetLink = `${process.env.CLIENT_URL}/users/reset-password/${resetToken}`;
+        const resetLink = `${process.env.CLIENT_URI}/users/reset-password/${resetToken}`;
         await sendEmail(email, "Reset Your Password",
             `<h3>Click the link below to reset your password:</h3>
          <a href="${resetLink}">${resetLink}</a>`
