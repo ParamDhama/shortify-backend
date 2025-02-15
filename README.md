@@ -4,6 +4,7 @@ This is the **backend** for a **URL shortening and analytics system**. It allows
 
 🔗 **Frontend Repository:** _Coming Soon_  
 🖥️ **Backend Repository:** [GitHub](https://github.com/ParamDhama/url-shortener-backend.git)  
+✅ **API Endpoints and testing:** [Postman](https://documenter.getpostman.com/view/38259618/2sAYXEEJXh) 
 
 ---
 
