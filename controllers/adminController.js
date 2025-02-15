@@ -40,6 +40,46 @@ const handleUserRole = async (req, res) => {
         return res.status(500).json({ message: "Internal Server Error" });
     }
 }
+const handleGetUrlByUser = async (req, res) =>{
+  try{
+    const {user} = req.params;
+    const urls = await Url.find({ userID: user , isDeleted : false }).select("_id originalUrl slug clicks createdAt");
+    if(!urls.length) return res.status(404).json({message : "No urls found"});
+
+    return res.status(200).json({message: 'Urls retrieved successfully', urls});
+
+  }catch(err){
+    console.log("Error :"+err);
+    return res.status(500).json({message: "Internal Server Error"});
+  }
+}
+
+const handleGetDeletedUrl = async(req,res) => {
+  try{
+    const users = {}
+    const urls = await Url.find({isDeleted : true}).select("_id userID originalUrl slug clicks createdAt");
+    if(!urls.length) return res.status(404).json({message: "No urls found"});
+    for(let url of urls) {
+      if(!users[url.userID]) {
+        const user = await User.findById(url.userID).select("name email");
+        users[url.userID] = user;
+      }      
+    }
+    const data = []
+    for (let userID of Object.keys(users)) {
+      console.log(userID); // This will log actual user IDs
+      data.push({
+        user: users[userID], // Correctly fetch user object
+        urls: urls.filter(url => url.userID == userID) // Match userID correctly
+      });
+    }
+    return res.status(200).json({message: 'Urls retrieved successfully',data : data});
+  }
+  catch(err){
+    console.log("Error :"+err);
+    return res.status(500).json({message: "Internal Server Error"});
+  }
+}
 
 const handleUserBan = async (req, res) => {
     try {
@@ -74,8 +114,9 @@ const handleUserDelete = async(req,res) => {
 const handleRestoreUrl = async(req,res) => {
     try{
     const {slug} = req.body;
-    const url = Url.find({slug : slug});
-    if(!url.length) return res.status(404).json({message : "url not found"});
+    const url = await Url.findOne({slug : slug});
+    
+    if(!url) return res.status(404).json({message : "url not found"});
 
     url.isDelete = false;
 
@@ -95,15 +136,18 @@ const handleUrlDelete = async(req,res) => {
         
         if(!slug.length) return res.status(400).json({message : "Invaid slug"});
 
-        const url = Url.findOne({slug : slug});
+        const url = await Url.findOne({slug : slug});
 
-        if(!url.length) return res.status(404).json({message : "Url not found"});
-
+        if(!url) return res.status(404).json({message : "Url not found"});
+      console.log(url);
+      
         await Clicks.deleteMany({urlId : url._id});
         await Url.deleteMany({slug : slug});
 
+        return res.status(201).json({message: "Url delete successfully"});
     } catch (error) {
-        
+        console.log("Error : " +error);
+        return res.status(500).json({message: "Internal Server Error"});
     }
 }
 
@@ -128,6 +172,8 @@ const handleGetAllClicks = async (req, res) => {
 module.exports = {
     handleGetUsers,
     handleGetAllClicks,
+    handleGetUrlByUser,
+    handleGetDeletedUrl,
     handleUserBan,
     handleUserRole,
     handleUserDelete,

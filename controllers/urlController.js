@@ -39,7 +39,7 @@ const getLocationFromIP = async (ip) => {
 exports.createShortUrl = async (req, res) => {
   try {
     const { originalUrl } = req.body;
-    const userId = req.user.id; // Extract user ID from token
+    const {userId} = req.user; // Extract user ID from token
 
     // Generate a unique slug
     const slug = await generateUniqueSlug();
@@ -52,7 +52,7 @@ exports.createShortUrl = async (req, res) => {
     const newUrl = new Url({ userID: userId, originalUrl, slug, qrCode });
     await newUrl.save();
 
-    res.status(201).json({ originalUrl, customUrl, qrCode });
+    res.status(201).json({ slug, qrCode });
   } catch (error) {
     console.error("Error creating short URL:", error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -65,7 +65,7 @@ exports.redirectToOriginalUrl = async (req, res) => {
     const slug = req.params.shortUrl;
     const url = await Url.findOne({ slug });
 
-    if (!url) {
+    if (!url || url.isDeleted) {
       return res.status(404).json({ message: 'URL not found' });
     }
 
@@ -113,8 +113,8 @@ exports.redirectToOriginalUrl = async (req, res) => {
 
 exports.getUserUrls = async (req, res) => {
   try {
-    const userId = req.user.id; // Extract user ID from token
-    const urls = await Url.find({ userID: userId });
+    const {userId} = req.user; // Extract user ID from token
+    const urls = await Url.find({ userID: userId , isDeleted : false }).select("_id originalUrl slug clicks createdAt");
 
     if (!urls.length) {
       return res.status(404).json({ message: "No URLs found for this user." });
@@ -131,13 +131,13 @@ exports.deleteUserUrl = async (req,res) => {
   try{
     const slug = req.params.shortUrl;
     const url = await Url.findOne({ slug });;
-    
-    if(!url.length) return res.status(404).json({messsage: "Url not found"});
+    console.log(url)
+    if(!url) return res.status(404).json({messsage: "Url not found"});
 
     url.isDeleted = true;
     await url.save();
 
-    return res.status(400).json({message: "Url delete successfully"});
+    return res.status(201).json({message: "Url delete successfully"});
   }catch(err){
     return res.status(500).json({message : "Internal Server Error"});
   }

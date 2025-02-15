@@ -9,6 +9,12 @@ const adminOnly = authMiddleware(["admin"]);
 // ✅ Get All Users (Admin)
 router.get("/users", adminOnly, adminController.handleGetUsers);
 
+// ✅ Get Urls By User ID (Admin)
+router.get("/:user/urls", adminOnly, adminController.handleGetUrlByUser);
+
+// ✅ Get Deleted Urls (Admin)
+router.get("/deletedUrls",adminOnly, adminController.handleGetDeletedUrl);
+
 // ✅ Change User Role (Admin)
 router.put("/users/role", adminOnly, adminController.handleUserRole);
 

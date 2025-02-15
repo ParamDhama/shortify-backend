@@ -5,7 +5,7 @@ const Url = require("../models/Url");
 exports.getUrlClicks = async (req, res) => {
   try {
     const { urlId } = req.params;
-    const userId = req.user.id; // Extract user ID from token
+    const {userId} = req.user; // Extract user ID from token
 
     // Check if the user owns the URL
     const url = await Url.findOne({ _id: urlId, userID: userId });

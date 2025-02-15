@@ -4,6 +4,6 @@ const clickController = require("../controllers/clickController");
 const authMiddleware = require("../middlewares/authMiddlewares");
 
 // ✅ Get Click Data for a Specific URL (Requires Authentication)
-router.get("/clicks/:urlId", authMiddleware(), clickController.getUrlClicks);
+router.get("/:urlId", authMiddleware(), clickController.getUrlClicks);
 
 module.exports = router;
