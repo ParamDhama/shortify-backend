@@ -2,7 +2,7 @@
 
 This is the **backend** for a **URL shortening and analytics system**. It allows users to shorten URLs, track clicks, and manage links securely.  
 
-🔗 **Frontend Repository:** _Coming Soon_  
+🔗 **Frontend Repository:** [GitHub](https://github.com/ParamDhama/shortify-frontend.git)   
 🖥️ **Backend Repository:** [GitHub](https://github.com/ParamDhama/url-shortener-backend.git)  
 ✅ **API Endpoints and testing:** [Postman](https://documenter.getpostman.com/view/38259618/2sAYXEEJXh) 
 
